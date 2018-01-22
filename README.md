@@ -1,7 +1,7 @@
 # Inteligentne systemy pomiarowe - projekt 1
 
 # Cel projektu
-Stwórz aplikację pomiarową pozwalającą na komunikację z wykorzystaniem szyny danych CAN. Praca nad zadaniem projektowym będzie wymagała wykorzystania zestawu Arduino + CAN Bus Shield + czujników CAN.
+Stworzyć aplikację pomiarową pozwalającą na komunikację z wykorzystaniem szyny danych CAN. Praca nad zadaniem projektowym wymaga wykorzystania zestawu Arduino + CAN Bus Shield + czujników CAN.
 
 # CAN - co to jest?
 CAN (Controller Area Network) to szeregowa magistrala komunikacyjna opracowana przez firmę Bosch GmbH w latach 80 XXw. Powstała ona w odpowiedzi na potrzebę znalezienia odpowiedniej metody komunikacji dla systemów kontrolnych, zapewniającej szybką i pozbawioną błędów transmisję danych między elementami wykonawczymi i moniturojącymi. W owych czasach była rewolucyjna pod względem niezawodności, łatwości implementacji, szybkości działania, zostając przy tym stosunkowo tanim rozwiązaniem. Jej głownym przeznaczeniem jest przemysł, w szczególności transport i przemysł maszynowy. 
