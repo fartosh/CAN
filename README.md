@@ -82,7 +82,7 @@ Wszystkie pliki potrzebne do prawidłowego działania systemu znajdują się w t
 4. Podłączyć przewody zasilające płytki Arduino
 - obie płytki zasilane są przewodami USB, przy czym ważne jest, żeby najpierw uruchomić płytkę z programem receiver.ino
 W tym momencie dane w odbiorniku są wystawiane na interfejs szeregowy USB, skąd mogą zostać pobrane przez skrypt napisany w języku Python.
-5. Uruchomić program .........py
+5. Uruchomić program send.py
 
 # Źródła
 - https://smartrobots.pl/arduino-CAN-bus-shield
