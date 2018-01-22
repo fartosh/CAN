@@ -67,6 +67,10 @@ Przewód db9-db9
 ![Alt text](images/schemat.png "Schemat połączeniowy")
 
 # Algorytm
+1. Arduino
+  - Sender
+  - Receiver
+2. PC
 
 # Sposób uruchomienia
 W celu kompilacji programów na platformy Arduino, wymagane jest pobranie i dołączenie biblioteki CAN_BUS_SHIELD od Seeed-Studio https://github.com/Seeed-Studio/CAN_BUS_Shield. Wszystkie pozostałe pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
