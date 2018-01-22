@@ -5,11 +5,15 @@
 #include <SPI.h>
 #include "mcp_can.h"
 
+#define MAX_FILTER_INDEX  5
+
 const int SPI_CS_PIN = 10;  
 MCP_CAN CAN(SPI_CS_PIN);                                    
 
 int filter_index = 2; //index of next available filter, as we have 6 filters, this parameter should never be higher than 5
 int WDG_timmer=0; //counter detecting if can shield works as intended
+
+int filter_IDs[5] = {1,2,0,0,0};
 
 void setup()
 {
@@ -44,31 +48,44 @@ void MCP2515_ISR()    //interrupt routine for receiving
 
         unsigned int canId = CAN.getCanId();  //gets the ID of the sending node
         
-        switch (canId){    //depending on received ID, we already know what is the messange label
-          case 1:
-            Serial.print("Wilgotnosc:");
-            for(int i = 0; i<len; i++)    
-            {
-              Serial.print(buf[i], HEX);
-            }
-            break;
-          case 2:
-            Serial.print("Temperatura:");
-            for(int i = 0; i<len; i++)    
-            {
-              Serial.print(buf[i], HEX);
-            }
-            break;
-          default:        //unknow node, still received the messange
-            Serial.print("ID: ");
-            Serial.print(canId);
-            Serial.print(". Wiadomosc od urzadzenia:");
-            for(int i = 0; i<len; i++)    
-            {
-              Serial.print(buf[i], HEX);
-            }
-            break;
+        Serial.print("ID");
+        Serial.print(canId);
+        Serial.print(":");
+        for(int i = 0; i<len; i++)    
+        {
+          Serial.print(buf[i], HEX);
         }
+        
+//        switch (canId){    //depending on received ID, we already know what is the messange label
+//          case 1:
+//            Serial.print("ID");
+//            Serial.print(canId);
+//            Serial.print(" Hum:");
+//            for(int i = 0; i<len; i++)    
+//            {
+//              Serial.print(buf[i], HEX);
+//            }
+//            break;
+//          case 2:
+//            Serial.print("ID");
+//            Serial.print(canId);
+//            Serial.print(" Temp:");
+//            for(int i = 0; i<len; i++)    
+//            {
+//              Serial.print(buf[i], HEX);
+//            }
+//            break;
+//          default:        //unknow node, still received the messange
+//            Serial.print("ID");
+//            Serial.print(canId);
+//            Serial.print(" NC:");
+//            for(int i = 0; i<len; i++)    
+//            {
+//              Serial.print(buf[i], HEX);
+//            }
+//
+//            break;
+//        }
         Serial.println();
         WDG_timmer=0;  //got msg- we can reset wdg timer
     }
@@ -76,9 +93,19 @@ void MCP2515_ISR()    //interrupt routine for receiving
 
 //function to check if we can add another filter
 bool index_available(void){
-  if(filter_index<6)
+  if(filter_index<MAX_FILTER_INDEX)
+  {  
+   // Serial.println(filter_index);
     return 1;
+  }
   else return 0;
+}
+
+bool ID_on_list(int id){
+  for(int i=0; i<MAX_FILTER_INDEX; i++)
+    if(id == filter_IDs[i])
+      return 1;
+  return 0;
 }
 
 //function adding additional filter in case device with unknown ID apears on the bus. To add a filter just type its ID number (1-99) through serial terminal.
@@ -88,23 +115,38 @@ void Try_add_device(void){
       char new_buffor = (Serial.read());
       new_number = new_number+new_buffor;
     }
-    if(index_available){  //check if there is index available
-      switch(new_number.length()){  //parsing case - TO DO: optimisation (right now we can add the same ID multiple times, we could store indexes in a vector and check it before initializing the filter)
+    if(index_available()){  //check if there is index available
+      switch(new_number.length()){  //parsing case - TO DO: optimisation (when there are 5 filters it should check if the input ID is already on list)
         case 1:
           if(isDigit(new_number[0])){
-            CAN.init_Filt(filter_index, 0, new_number.toInt());   //add new filter based on filter index and ID of the node
-            Serial.print("Dodano nowe urzadzenie o numerze ");
-            Serial.println(new_number.toInt());
-            filter_index++;
+            if(!ID_on_list(new_number.toInt())){
+              CAN.init_Filt(filter_index, 0, new_number.toInt());   //add new filter based on filter index and ID of the node
+              Serial.print("Dodano nowe urzadzenie o numerze ");
+              Serial.print(new_number.toInt());
+              Serial.print(" . Mozna dodac jeszcze ");
+              Serial.print(MAX_FILTER_INDEX-filter_index);
+              Serial.println(" ID urzadzen.");
+              filter_IDs[filter_index] = new_number.toInt();
+              filter_index++;
+            }
+            else
+              Serial.println("ID urzadzenia jest juz dodane");
           }
           break;
         case 2:
           if(isDigit(new_number[0]) && isDigit(new_number[1])){
-            CAN.init_Filt(filter_index, 0, new_number.toInt()); //add new filter based on filter index and ID of the node
-            Serial.print("Dodano nowe urzadzenie o numerze ");
-            Serial.println(new_number.toInt());
-            filter_index++;
-            
+            if(!ID_on_list(new_number.toInt())){
+              CAN.init_Filt(filter_index, 0, new_number.toInt()); //add new filter based on filter index and ID of the node
+              Serial.print("Dodano nowe urzadzenie o numerze ");
+              Serial.print(new_number.toInt());
+              Serial.print(" . Mozna dodac jeszcze ");
+              Serial.print(MAX_FILTER_INDEX-filter_index);
+              Serial.println(" ID urzadzen.");
+              filter_IDs[filter_index] = new_number.toInt();
+              filter_index++;
+            }
+            else
+              Serial.println("ID urzadzenia jest juz dodane");
           }
           break;
         default:  //got anything else than 1-99
