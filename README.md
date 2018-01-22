@@ -13,6 +13,7 @@ Arduino CAN-Bus Shield
 ![Alt text](images/shield-can-2-800x800.jpg "Arduino CAN-Bus Shield")
 
 Przewód db9-db9
+
 ![Alt text](images/db9.jpg "Przewód db9-db9")
 
 # Podstawy teoretyczne magistrali CAN
@@ -32,6 +33,7 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
 - wykrywanie błędów
 
 # Schemat połączeniowy
+![Alt text](images/schemat.png "Schemat połączeniowy")
 
 # Algorytm
 
