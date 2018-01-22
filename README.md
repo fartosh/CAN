@@ -23,7 +23,15 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
   
 
 2. Warstwa łącza danych określa:
-  - format ramki CAN
+  - format ramki CAN - istnieją 4 rodzaje ramek:
+    - data frame 
+      - standardowe (CAN 2.0A)
+      - rozszerzone (CAN 2.0B)
+    - remote frame
+    - error frame
+    - overload frame
+
+     
   - model komunikacji
   - dostęp do medium
   - wykrywanie błędów
