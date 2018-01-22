@@ -66,8 +66,6 @@ Z punktu widzenia projektu, kluczowe jest rozróżnienie 3 różnych metod proje
 
 
 # Urządzenia
-![Alt text](http://smartrobots.pl/image/cache/catalog/arduino/leonardo-1-800x800.jpg "Arduino Leonardo")
-
 Arduino Leonardo
 ![Alt text](images/leonardo-1-800x800.jpg "Arduino Leonardo")
 
