@@ -14,6 +14,7 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
   - kodowanie -  CAN wykorzystuje kodowanie NRZ (non-return to zero)
     - jedynce logicznej odpowiada stan wysoki
     - zeru logicznemu odpowiada stan niski
+    
   Wysłanie tego samego bitu 5 razy pod rząd budzi jednak podejrzenia, więc nadawca po 5 takich samych bitach "wpycha" bit o wartości przeciwnej (tzw. Bit stuffing). W ten sposób mamy pewność co do poprawnego działania magistrali.
     
   - stany sygnału magistrali - CAN przesyła informacje metodą różnicową - stany odpowiadają różnicy napięć między liniami CAN_L i CAN_H. Istnieją dwa stany magistrali:
