@@ -1,4 +1,4 @@
-### Inteligentne systemy pomiarowe - projekt 1
+# Inteligentne systemy pomiarowe - projekt 1
 
 ## Cel projektu
 Stworzyć aplikację pomiarową pozwalającą na komunikację z wykorzystaniem szyny danych CAN. Praca nad zadaniem projektowym wymaga wykorzystania zestawu Arduino + CAN Bus Shield + czujników CAN.
@@ -8,7 +8,7 @@ CAN (Controller Area Network) to szeregowa magistrala komunikacyjna opracowana p
 
 ## Podstawy teoretyczne działania szyny CAN
 Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fizyczną i warstwę łącza danych. Pozostałe warstwy, poza ostatnią (warstwą aplikacji), której implementacja zależy od projektanta sytemu, są nieużywane. 
-# 1. Warstwa fizyczna określa:
+### 1. Warstwa fizyczna określa:
   - topologię sieci - CAN jest magistralą, czyli wszystkie urządzenia połączonne są szeregowo wpólną szyną transmisyjną. Szyna składa się z dwóch lini: CAN_L i CAN_H. Minimalną liczbą przewodów do realizacji sieci CAN jest zatem kabel dwużyłowy. W celu eliminacji odbicia sygnałów na końcach magistrali stosuje się rezystory terminujące.
   ![Magistrala](http://mikrokontroler.pl/wp-content/uploads/artykuly/Interfejs_komunikacyjny_CAN_podstawy/rys3.jpg)
   - prędkość i zasięg transmisji - maksymalną dopuszczalną prędkością przesyłania danych jest 1Mb/s, jednak jest ona zależna od długości medium przesyłowego. Ważne jest, aby wszystkie urządzenia podłączone do magistrali działały z tą samą prędkością transmisji.  
@@ -24,7 +24,7 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
     - dominujący - 2.75-4.5V na lini CAN_H i 0.5V-2.25V na lini CAN_L - reprezentuje zero logiczne
   
 
-# 2. Warstwa łącza danych określa:
+### 2. Warstwa łącza danych określa:
   - format ramki CAN - istnieją 4 rodzaje ramek:
     - data frame 
       - standardowa (CAN 2.0A) - 11-bitowa długość adresu
@@ -67,10 +67,10 @@ Przewód db9-db9
 ![Alt text](images/schemat.png "Schemat połączeniowy")
 
 ## Algorytm
-# 1. Arduino
+### 1. Arduino
   - Sender
   - Receiver
-# 2. PC
+### 2. PC
 
 ## Sposób uruchomienia
 W celu kompilacji programów na platformy Arduino, wymagane jest pobranie i dołączenie biblioteki CAN_BUS_SHIELD od Seeed-Studio https://github.com/Seeed-Studio/CAN_BUS_Shield. Wszystkie pozostałe pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
