@@ -44,6 +44,7 @@ Z punktu widzenia projektu, kluczowe jest rozróżnienie 3 różnych metod proje
 1. **Węzeł zbudowany z trzech elementów - mikrokontrolera, kontrolera CAN i transceivera CAN - wykorzystana metoda.**
 2. Węzeł zbudowany z mikrokontrolera z kontrolerem CAN i transceivera.
 3. Mikrokontroler z wbudowanym kontrolerem CAN i transceiverem.
+![Schemat](https://image.ibb.co/bskxTb/canbus.png)
 
     
 # Schemat połączeniowy
