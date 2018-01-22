@@ -1,5 +1,6 @@
 import requests
 import serial
+import datetime
 
 
 def interpret_data(string):
@@ -21,12 +22,18 @@ def interpret_data(string):
 
 
 def send_data(sensor_id, value):
+    dt = datetime.datetime.now()
     url = "http://alfa.smartstorm.io/api/v1/measure"
     request_data = {"user_id": "126127@interia.pl",
                     "sensor_id": sensor_id,         # "5a637497bdb00155a3540295",
-                    "desc": "data",
+                    "desc": str(dt),
                     "measure_value": str(value)}
-    requests.post(url, request_data)
+    try:
+        requests.post(url, request_data, timeout=1)
+    except requests.exceptions.RequestException:
+        print("Could not send data to Smart Storm")
+        with open('failed_data', 'a') as f:
+            f.write(str(dt) + ',' + sensor_id + ',' + str(value) + '\n')
 
 
 if __name__ == '__main__':
