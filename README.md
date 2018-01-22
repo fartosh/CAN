@@ -69,8 +69,22 @@ Przewód db9-db9
 # Algorytm
 
 # Sposób uruchomienia
+Wszystkie pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
+1. Wgrać odpowiedni program (sender/sender.ino lub receiver/receiver.ino) na płytki Arduino za pomocą programu Arduino IDE
+- wybrać odpowiedni typ płytki
+- wybrać odpowiedni port COM
+- otworzyć plik źródłowy
+- skompilować kod
+- załadować skompilowany program do pamięci płytki
+2. Podłączyć przewody komunikacyjne
+- połączyć przewodem DB9-DB9 gniazda na obu shieldach
+3. Zapewnić łączność komputera PC ze stroną internetową systemu smart-storm
+4. Podłączyć przewody zasilające płytki Arduino
+- obie płytki zasilane są przewodami USB, przy czym ważne jest, żeby najpierw uruchomić płytkę z programem receiver.ino
+W tym momencie dane w odbiorniku są wystawiane na interfejs szeregowy USB, skąd mogą zostać pobrane przez skrypt napisany w języku Python.
+5. Uruchomić program .........py
 
 # Źródła
-https://smartrobots.pl/arduino-CAN-bus-shield
-https://elty.pl/pl/p/CAN-BUS-Shield-dla-Arduino/1094
-http://mikrokontroler.pl/2013/06/10/interfejs-komunikacyjny-can-podstawy/
+- https://smartrobots.pl/arduino-CAN-bus-shield
+- https://elty.pl/pl/p/CAN-BUS-Shield-dla-Arduino/1094
+- http://mikrokontroler.pl/2013/06/10/interfejs-komunikacyjny-can-podstawy/
