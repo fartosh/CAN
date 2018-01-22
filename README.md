@@ -25,16 +25,27 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
 2. Warstwa łącza danych określa:
   - format ramki CAN - istnieją 4 rodzaje ramek:
     - data frame 
-      - standardowe (CAN 2.0A)
-      - rozszerzone (CAN 2.0B)
+      - standardowa (CAN 2.0A) - 11-bitowa długość adresu
+      ![Ramka standardowa](http://imgie.pl/images/2018/01/22/ramka9f39f.png)
+      - rozszerzona (CAN 2.0B) - 29-bitowa długość adresu
     - remote frame
     - error frame
-    - overload frame
+    - overload frame  
+  - model komunikacji - infrastruktura multi-master - każde z urządzeń może pełnić funkcje mastera. Każdy węzeł może rozgłaszać wiadomości w sposób wolny, to od konfiguracji węzła docelowego zależy, czy zaakceptuje daną wiadomość.
+  - dostęp do medium - metoda CSMA/CR (zmodyfikowana CSMA/CD) - w wyniku wystąpienia kolizji, jedna z wiadomości nadal jest przesyłana, natomiast druga (pozostałe) zostają wysłane po zwolnieniu medium. O tym, która zostanie wysłana decyduje priorytet określany na podstawie adresu (ID). 
+  - wykrywanie błędów - CAN wykorzystuje wiele metod wykrywania błędów, np.:
+    - suma CRC
+    - potwierdzenie otrzymania wiadomości
+    - Bit Stuffing
+    - sprawdzanie poprawności ramki (zawieranie odpowiednich pól)
+    - sprawdzanie poprawności wystawionego bitu
+    
+Z punktu widzenia projektu, kluczowe jest rozróżnienie 3 różnych metod projektowania węzła CAN.
+** 1. Węzeł zbudowany z trzech elementów - mikrokontrolera, kontrolera CAN i transceivera CAN - wykorzystana metoda.**
+2. Węzeł zbudowany z mikrokontrolera z kontrolerem CAN i transceivera.
+3. Mikrokontroler z wbudowanym kontrolerem CAN i transceiverem.
 
-     
-  - model komunikacji
-  - dostęp do medium
-  - wykrywanie błędów
+    
 # Schemat połączeniowy
 
 # Algorytm
