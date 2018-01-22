@@ -13,8 +13,20 @@ Arduino CAN-Bus Shield
 ![Alt text](images/shield-can-2-800x800.jpg "Arduino CAN-Bus Shield")
 
 # Podstawy teoretyczne działania szyny CAN
+Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fizyczną i warstwę łącza danych. Pozostałe warstwy, poza ostatnią (warstwą aplikacji), której implementacja zależy od projektanta sytemu, są nieużywane. 
+1.Warstwa fizyczna określa:
+  -topologię sieci - CAN jest magistralą, czyli wszystkie urządzenia połączonne są szeregowo wpólną szyną transmisyjną. Szyna składa się z dwóch lini: CAN_L i CAN_H. Minimalną liczbą przewodów do realizacji sieci CAN jest zatem kabel dwużyłowy. W celu eliminacji odbicia sygnałów na końcach magistrali stosuje się rezystory terminujące.
+  -prędkość transmisji
+  -zasięg transmisji
+  -kodowanie
+  -stany sygnału magistrali
 
-
+2.Warstwa łącza danych określa:
+  -format ramki CAN
+  -model komunikacji
+  -dostęp do medium
+  -wykrywanie błędów
+  
 # Schemat połączeniowy
 
 # Algorytm
