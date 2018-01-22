@@ -69,7 +69,8 @@ Przewód db9-db9
 # Algorytm
 
 # Sposób uruchomienia
-Wszystkie pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
+Do prawidłowego działania skryptów Arduino, wymagane jest pobranie i dołączenie biblioteki CAN_BUS_SHIELD https://github.com/Seeed-Studio/CAN_BUS_Shield
+Wszystkie pozostałe pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
 1. Wgrać odpowiedni program (sender/sender.ino lub receiver/receiver.ino) na płytki Arduino za pomocą programu Arduino IDE
 - wybrać odpowiedni typ płytki
 - wybrać odpowiedni port COM
