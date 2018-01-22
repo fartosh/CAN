@@ -6,18 +6,20 @@ Stwórz aplikację pomiarową pozwalającą na komunikację z wykorzystaniem szy
 ![Alt text](http://smartrobots.pl/image/cache/catalog/arduino/leonardo-1-800x800.jpg "Arduino Leonardo")
 # Podstawy teoretyczne działania szyny CAN
 Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fizyczną i warstwę łącza danych. Pozostałe warstwy, poza ostatnią (warstwą aplikacji), której implementacja zależy od projektanta sytemu, są nieużywane. 
+
 1. Warstwa fizyczna określa:
-  - topologię sieci - CAN jest magistralą, czyli wszystkie urządzenia połączonne są szeregowo wpólną szyną transmisyjną. Szyna składa się z dwóch lini: CAN_L i CAN_H. Minimalną liczbą przewodów do realizacji sieci CAN jest zatem kabel dwużyłowy. W celu eliminacji odbicia sygnałów na końcach magistrali stosuje się rezystory terminujące.
-  - prędkość transmisji
-  - zasięg transmisji
-  - kodowanie
-  - stany sygnału magistrali
+- topologię sieci - CAN jest magistralą, czyli wszystkie urządzenia połączonne są szeregowo wpólną szyną transmisyjną. Szyna składa się z dwóch lini: CAN_L i CAN_H. Minimalną liczbą przewodów do realizacji sieci CAN jest zatem kabel dwużyłowy. W celu eliminacji odbicia sygnałów na końcach magistrali stosuje się rezystory terminujące.
+- prędkość transmisji
+- zasięg transmisji
+- kodowanie
+- stany sygnału magistrali
 
 2. Warstwa łącza danych określa:
-  - format ramki CAN
-  - model komunikacji
-  - dostęp do medium
-  - wykrywanie błędów
+- format ramki CAN
+- model komunikacji
+- dostęp do medium
+- wykrywanie błędów
+
 # Schemat połączeniowy
 
 # Algorytm
