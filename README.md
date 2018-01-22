@@ -69,3 +69,8 @@ Przewód db9-db9
 # Algorytm
 
 # Sposób uruchomienia
+
+# Źródła
+https://smartrobots.pl/arduino-CAN-bus-shield
+https://elty.pl/pl/p/CAN-BUS-Shield-dla-Arduino/1094
+http://mikrokontroler.pl/2013/06/10/interfejs-komunikacyjny-can-podstawy/
