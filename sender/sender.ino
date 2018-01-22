@@ -9,7 +9,7 @@
 // v0.9b and v1.0 is default D10
 const int SPI_CS_PIN = 10;
 int temp = 2200;
-int hum = 200;
+int hum = 2000;
 MCP_CAN CAN(SPI_CS_PIN);                                    // Set CS pin
 
 void setup()
@@ -27,6 +27,7 @@ void setup()
 
 char temperature[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 char humidity[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+char data[8] = {1, 2, 3, 4, 5, 6, 7, 8};
 
 int get_temp(void)
 {
@@ -55,7 +56,8 @@ void prepare_data(void)
     
     humidity[7] = (hum_buf % 10);
     humidity[6] = (hum_buf % 100) / 10;
-    humidity[5] = (hum_buf / 100);
+    humidity[5] = (hum_buf % 1000) / 100;
+    humidity[4] = (hum_buf /1000);
 
 //    Serial.println(temperature);
 //    Serial.println(sizeof(temperature));
@@ -78,7 +80,7 @@ void loop()
     delay(100);  //messanges shouldn't be sent faster than 1/20ms because of using interrupt driven receiving                      
     CAN.sendMsgBuf(0x01, 0, 8, (unsigned char *)humidity);
     delay(100); 
-    CAN.sendMsgBuf(0x05, 0, 8, (unsigned char *)humidity);
+    CAN.sendMsgBuf(0x05, 0, 8, (unsigned char *)data);
     delay(100); 
 
 }
