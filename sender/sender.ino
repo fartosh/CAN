@@ -26,6 +26,9 @@ void setup()
 unsigned char temperature[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 unsigned char humidity[8] = {0, 0, 0, 0, 0, 0, 1, 1};
 
+const int Buff1=1;
+const int Buff2=2;
+const int Buff3=3;
 void loop()
 {
     // get data from sensors
@@ -35,8 +38,19 @@ void loop()
     // parse data
     
     // send data:  id = 0x00, standard frame, data len = 8, stmp: data buf
-    CAN.sendMsgBuf(0x00, 0, 8, humidity);
-    delay(5000);                       // send data per 100ms
+    
+    //We can either send a messange through a specified buffer or through a first found free buffer
+    //It may be neccessary to use specific buffer when there are different prorities to the informations of if we need to store old informations
+    //In this assignment there is no need to buffor data, as we do not need old data at any time
+    //Its better to look for the first free buffor and just go for it
+    
+    CAN.sendMsgBuf(0x02, 0, 8, temperature);
+    delay(100);                      
+    CAN.sendMsgBuf(0x01, 0, 8, humidity);
+    delay(100); 
+    CAN.sendMsgBuf(0x05, 0, 8, humidity);
+    delay(100); 
+
 }
 
 // END FILE
