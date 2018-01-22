@@ -13,8 +13,8 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
   ![Predkosci](http://mikrokontroler.pl/wp-content/uploads/artykuly/Interfejs_komunikacyjny_CAN_podstawy/rys4.png)
   - kodowanie -  CAN wykorzystuje kodowanie NRZ (non-return to zero)
   - stany sygnału magistrali - CAN przesyła informacje metodą różnicową - stany odpowiadają różnicy napięć między liniami CAN_L i CAN_H. Istnieją dwa stany magistrali:
-    -recesywny - napięcie na obu liniach równe, wynoszące 2-3V - reprezentuje jedynkę logiczną
-    -dominujący - 2.75-4.5V na lini CAN_H i 0.5V-2.25V na lini CAN_L - reprezentuje zero logiczne
+    - recesywny - napięcie na obu liniach równe, wynoszące 2-3V - reprezentuje jedynkę logiczną
+    - dominujący - 2.75-4.5V na lini CAN_H i 0.5V-2.25V na lini CAN_L - reprezentuje zero logiczne
   
 
 2. Warstwa łącza danych określa:
