@@ -41,7 +41,7 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
     - sprawdzanie poprawności wystawionego bitu
     
 Z punktu widzenia projektu, kluczowe jest rozróżnienie 3 różnych metod projektowania węzła CAN.
-** 1. Węzeł zbudowany z trzech elementów - mikrokontrolera, kontrolera CAN i transceivera CAN - wykorzystana metoda.**
+1. **Węzeł zbudowany z trzech elementów - mikrokontrolera, kontrolera CAN i transceivera CAN - wykorzystana metoda.**
 2. Węzeł zbudowany z mikrokontrolera z kontrolerem CAN i transceivera.
 3. Mikrokontroler z wbudowanym kontrolerem CAN i transceiverem.
 
