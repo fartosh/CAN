@@ -151,7 +151,7 @@ def send_data(sensor_id, value):
     dt = datetime.datetime.now()
     url = "http://alfa.smartstorm.io/api/v1/measure"
     request_data = {"user_id": "126127@interia.pl",
-                    "sensor_id": sensor_id,         # "5a637497bdb00155a3540295",
+                    "sensor_id": sensor_id,
                     "desc": str(dt),
                     "measure_value": str(value)}
     try:
