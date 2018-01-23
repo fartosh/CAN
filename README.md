@@ -69,13 +69,14 @@ Przewód db9-db9
 ![Alt text](images/schemat.png "Schemat połączeniowy")
 
 ## Algorytm
+Przed rozpoczęciem **świadomej** pracy z projektem, należy zapoznać się z biblioteką CAN_BUS_SHIELD od Seeed-Studio (https://github.com/Seeed-Studio/CAN_BUS_Shield). W celu lepszego zrozumienia działania programu warto również odnieść się do dokumentacji modułów MCP2515 (CAN bus controller http://ww1.microchip.com/downloads/en/DeviceDoc/21801d.pdf) i MCP2551 (CAN transceiver http://www.microchip.com/wwwproducts/en/en010405). 
 ### 1. Arduino
-  - Sender
+  - Sender - 
   - Receiver
 ### 2. PC
 
 ## Sposób uruchomienia
-W celu kompilacji programów na platformy Arduino, wymagane jest pobranie i dołączenie biblioteki CAN_BUS_SHIELD od Seeed-Studio https://github.com/Seeed-Studio/CAN_BUS_Shield. Wszystkie pozostałe pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
+W celu kompilacji programów na platformy Arduino, wymagane jest pobranie i dołączenie biblioteki CAN_BUS_SHIELD od Seeed-Studio. Wszystkie pozostałe pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
 1. Wgrać odpowiedni program (sender/sender.ino lub receiver/receiver.ino) na płytki Arduino za pomocą programu Arduino IDE
 - wybrać odpowiedni typ płytki
 - wybrać odpowiedni port COM
