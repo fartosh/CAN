@@ -116,7 +116,7 @@ W ramach projektu zostały stworzone dwa programy realizujące komunikację CAN 
    CAN.sendMsgBuf(0x02, 0, 8, (unsigned char *)temperature);
    ```
    Funkcja "prepare_data" przygotowuje symulacyjne dane z wirtualnych czujników, natomiast funkcja "CAN.sendMsgBuf(ID_węzła,typ_ramki(0=standard,1=rozszerzona), liczba_bitów, bufor_nadawczy)" odpowiada za zarządzanie magistralą i wysłanie ramki. W ramach funkcji sprawdzane jest dostępność do medium, wybór pierwszego wolnego bufora, ustawienie odpowiednich flag oraz wysłanie danych. 
-  - Receiver - jak sama nazwa wskazuje pełni funkcję odbiorczą. Wykorzystane w progrmaie maski i filtry pozwalają na eliminację nieporządanych wiadomości.
+  - Receiver - jak sama nazwa wskazuje pełni funkcję odbiorczą. Wykorzystane w programie maski i filtry pozwalają na eliminację niepożądanych wiadomości.
   ```
     CAN.init_Mask(0, 0, 0x3ff);    //in order to use filters, we have to first define a Mask (according to DataSheet)                         
     CAN.init_Mask(1, 0, 0x3ff);    //this mask is "test all"-  that means every bit of filter must be satisfied (0b1111111111)
@@ -142,7 +142,7 @@ W ramach projektu zostały stworzone dwa programy realizujące komunikację CAN 
      }
    ```
    W programie ponadto występuje algorytm, pozwalający w prosty sposób dodawać kolejne filtry, umożliwiając odbieranie danych od niezdefiniowanych domyślnie ID. Służy do tego funkcja "Try_add_device()".
-   W celu przyszłego usprawnienia aplikacji, oraz informowania użytkownika o stanie systemu, wprowadzony został prymitywny "software watchdog". Działa on w pętli głównej programu, wykorzystuje on systemowy UpCounter, który resetuje się po otrzymaniu wiadomości. W przypadku nie otrzymania wiadomości przez "TIMEOUT_INTERVAL" sekund, użytkownik informowany jest o stanie modułu, oraz otrzymuje podpowiedzi od systemu.
+   W celu przyszłego usprawnienia aplikacji, oraz informowania użytkownika o stanie systemu, wprowadzony został prymitywny "software watchdog". Działa on w pętli głównej programu, wykorzystuje on systemowy UpCounter, który resetuje się po otrzymaniu wiadomości. W przypadku nie otrzymania wiadomości przez "TIMEOUT_INTERVAL" sekund, użytkownik informowany jest o stanie modułu oraz otrzymuje podpowiedzi od systemu.
    
    
 
