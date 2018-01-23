@@ -6,6 +6,7 @@
 #include "mcp_can.h"
 
 #define MAX_FILTER_INDEX  5
+#define TIMEOUT_INTERVAL 3000   //*10ms
 
 const int SPI_CS_PIN = 10;  
 MCP_CAN CAN(SPI_CS_PIN);                                    
@@ -162,8 +163,8 @@ void Try_add_device(void){
 void loop()
 {
     WDG_timmer++; //we increase the timer every 10ms
-    if(WDG_timmer>500){   //if we havent got messange in 500 main loop cycles, we assume something is wrong
-      Serial.println("Od 5s nie otrzymano danych");
+    if(WDG_timmer>TIMEOUT_INTERVAL){   //if we havent got messange in 500 main loop cycles, we assume something is wrong
+      Serial.println("Od 30s nie otrzymano danych");
       if(!CAN.checkError())  //its either the connection between modules
       {
         Serial.println("Nie wykryto awarii modulu CAN -  sprawdz poprawnosc polaczenia");
