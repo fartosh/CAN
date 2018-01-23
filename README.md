@@ -1,30 +1,14 @@
 # Inteligentne systemy pomiarowe - projekt 1
 
-# Cel projektu
-Stwórz aplikację pomiarową pozwalającą na komunikację z wykorzystaniem szyny danych CAN. Praca nad zadaniem projektowym będzie wymagała wykorzystania zestawu Arduino + CAN Bus Shield + czujników CAN.
+## Cel projektu
+Stworzyć aplikację pomiarową pozwalającą na komunikację z wykorzystaniem szyny danych CAN. Praca nad zadaniem projektowym wymaga wykorzystania zestawu Arduino + CAN Bus Shield + czujników CAN.
 
-# CAN - co to jest?
+## CAN - co to jest?
 CAN (Controller Area Network) to szeregowa magistrala komunikacyjna opracowana przez firmę Bosch GmbH w latach 80 XXw. Powstała ona w odpowiedzi na potrzebę znalezienia odpowiedniej metody komunikacji dla systemów kontrolnych, zapewniającej szybką i pozbawioną błędów transmisję danych między elementami wykonawczymi i moniturojącymi. W owych czasach była rewolucyjna pod względem niezawodności, łatwości implementacji, szybkości działania, zostając przy tym stosunkowo tanim rozwiązaniem. Jej głownym przeznaczeniem jest przemysł, w szczególności transport i przemysł maszynowy. 
 
-# Podstawy teoretyczne magistrali CAN
-Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fizyczną i warstwę łącza danych. Pozostałe warstwy, poza ostatnią (warstwą aplikacji), której implementacja zależy od projektanta systemu, są nieużywane. 
-
-1. Warstwa fizyczna określa:
-- topologię sieci - CAN jest magistralą, czyli wszystkie urządzenia połączonne są szeregowo wpólną szyną transmisyjną. Szyna składa się z dwóch lini: CAN_L i CAN_H. Minimalną liczbą przewodów do realizacji sieci CAN jest zatem kabel dwużyłowy. W celu eliminacji odbicia sygnałów na końcach magistrali stosuje się rezystory terminujące.
-- prędkość transmisji
-- zasięg transmisji
-- kodowanie
-- stany sygnału magistrali
-
-2. Warstwa łącza danych określa:
-- format ramki CAN
-- model komunikacji
-- dostęp do medium
-- wykrywanie błędów
-
-# Podstawy teoretyczne działania szyny CAN
+## Podstawy teoretyczne działania szyny CAN
 Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fizyczną i warstwę łącza danych. Pozostałe warstwy, poza ostatnią (warstwą aplikacji), której implementacja zależy od projektanta sytemu, są nieużywane. 
-1. Warstwa fizyczna określa:
+### 1. Warstwa fizyczna określa:
   - topologię sieci - CAN jest magistralą, czyli wszystkie urządzenia połączonne są szeregowo wpólną szyną transmisyjną. Szyna składa się z dwóch lini: CAN_L i CAN_H. Minimalną liczbą przewodów do realizacji sieci CAN jest zatem kabel dwużyłowy. W celu eliminacji odbicia sygnałów na końcach magistrali stosuje się rezystory terminujące.
   ![Magistrala](http://mikrokontroler.pl/wp-content/uploads/artykuly/Interfejs_komunikacyjny_CAN_podstawy/rys3.jpg)
   - prędkość i zasięg transmisji - maksymalną dopuszczalną prędkością przesyłania danych jest 1Mb/s, jednak jest ona zależna od długości medium przesyłowego. Ważne jest, aby wszystkie urządzenia podłączone do magistrali działały z tą samą prędkością transmisji.  
@@ -40,7 +24,7 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
     - dominujący - 2.75-4.5V na lini CAN_H i 0.5V-2.25V na lini CAN_L - reprezentuje zero logiczne
   
 
-2. Warstwa łącza danych określa:
+### 2. Warstwa łącza danych określa:
   - format ramki CAN - istnieją 4 rodzaje ramek:
     - data frame 
       - standardowa (CAN 2.0A) - 11-bitowa długość adresu
@@ -57,7 +41,9 @@ Specyfikacja CAN definiuje dwie pierwsze warstwy modelu ISO OSI, tj. warstwę fi
     - Bit Stuffing
     - sprawdzanie poprawności ramki (zawieranie odpowiednich pól)
     - sprawdzanie poprawności wystawionego bitu
-    
+
+
+### Architektura
 Z punktu widzenia projektu, kluczowe jest rozróżnienie 3 różnych metod projektowania węzła CAN.
 1. **Węzeł zbudowany z trzech elementów - mikrokontrolera, kontrolera CAN i transceivera CAN - wykorzystana metoda.**
 2. Węzeł zbudowany z mikrokontrolera z kontrolerem CAN i transceivera.
@@ -65,7 +51,7 @@ Z punktu widzenia projektu, kluczowe jest rozróżnienie 3 różnych metod proje
 ![Schemat](https://image.ibb.co/bskxTb/canbus.png)
 
 
-# Urządzenia
+## Urządzenia
 Arduino Leonardo
 ![Alt text](images/leonardo-1-800x800.jpg "Arduino Leonardo")
 
@@ -79,9 +65,106 @@ Przewód db9-db9
 
 ![Alt text](images/db9.jpg "Przewód db9-db9")
 
-# Schemat połączeniowy
+## Schemat połączeniowy
 ![Alt text](images/schemat.png "Schemat połączeniowy")
 
-# Algorytm
+## Algorytm
+Przed rozpoczęciem **świadomej** pracy z projektem, należy zapoznać się z biblioteką CAN_BUS_SHIELD od Seeed-Studio (https://github.com/Seeed-Studio/CAN_BUS_Shield). W celu lepszego zrozumienia działania programu warto również odnieść się do dokumentacji modułów MCP2515 (CAN bus controller http://ww1.microchip.com/downloads/en/DeviceDoc/21801d.pdf) i MCP2551 (CAN transceiver http://www.microchip.com/wwwproducts/en/en010405). 
+### 1. Arduino
+Ponieważ magistrala CAN działa na zasadzie multi-slave, w obu programach inicjalizacja modułów odpowiedzialnych za komunikację odbywa się jednakowo. 
+```
+void setup()
+{
+    Serial.begin(115200);
 
-# Sposób uruchomienia
+    while (CAN_OK != CAN.begin(CAN_500KBPS))              // init can bus : baudrate = 500k
+    {
+        Serial.println("CAN BUS Shield init fail");
+        Serial.println(" Init CAN BUS Shield again");
+        delay(100);
+    }
+    Serial.println("CAN BUS Shield init ok!");
+}
+```
+Parametr funkcji CAN.begin określa, z jaką prędkością przesyłane są dane w magistrali. Możliwe do wykorzystania prędkości:
+```
+#define CAN_5KBPS    1
+#define CAN_10KBPS   2
+#define CAN_20KBPS   3
+#define CAN_25KBPS   4 
+#define CAN_31K25BPS 5
+#define CAN_33KBPS   6
+#define CAN_40KBPS   7
+#define CAN_50KBPS   8
+#define CAN_80KBPS   9
+#define CAN_83K3BPS  10
+#define CAN_95KBPS   11
+#define CAN_100KBPS  12
+#define CAN_125KBPS  13
+#define CAN_200KBPS  14
+#define CAN_250KBPS  15
+#define CAN_500KBPS  16
+#define CAN_666kbps  17
+#define CAN_1000KBPS 18
+```
+Jeśli wszystkie piny płytki Arduino CAN shield zostały poprawnie podłączone, otrzymamy na porcie szeregowym wiadomość "CAN BUS Shield init ok!".
+
+W ramach projektu zostały stworzone dwa programy realizujące komunikację CAN za pomocą platformy Arduino:
+  - Sender - program wysyłający dane z symulowanych czujników: temperatury, wilgotności i czujnika nieokreślonego. 
+  ```
+   prepare_data();
+   CAN.sendMsgBuf(0x02, 0, 8, (unsigned char *)temperature);
+   ```
+   Funkcja "prepare_data" przygotowuje symulacyjne dane z wirtualnych czujników, natomiast funkcja "CAN.sendMsgBuf(ID_węzła,typ_ramki(0=standard,1=rozszerzona), liczba_bitów, bufor_nadawczy)" odpowiada za zarządzanie magistralą i wysłanie ramki. W ramach funkcji sprawdzane jest dostępność do medium, wybór pierwszego wolnego bufora, ustawienie odpowiednich flag oraz wysłanie danych. 
+  - Receiver - jak sama nazwa wskazuje pełni funkcję odbiorczą. Wykorzystane w progrmaie maski i filtry pozwalają na eliminację nieporządanych wiadomości.
+  ```
+    CAN.init_Mask(0, 0, 0x3ff);    //in order to use filters, we have to first define a Mask (according to DataSheet)                         
+    CAN.init_Mask(1, 0, 0x3ff);    //this mask is "test all"-  that means every bit of filter must be satisfied (0b1111111111)
+      
+    CAN.init_Filt(0, 0, 0x01);    //1st filter, receives msg from ID 0x01 device                         
+    CAN.init_Filt(1, 0, 0x02);    //2nd filter, receives msg from ID 0x02 device  
+  ```
+   Program działa w trybie przerwaniowym - kiedy kontroler magistrali informuje procesor o obecności wiadomości w buforze odbiorczym, Arduino pobiera dane i ustawia w buforze odpowiednie flagi, pozwalające buforowi na przyjęcie kolejnych porcji danych. Funckja za to odpowiedzialna prezentuje się następująco.
+   ```
+    if(CAN_MSGAVAIL == CAN.checkReceive())      //set RX and TX flag, allowing us to receive msg      
+    {
+        CAN.readMsgBuf(&len, buf);      //reads the messange, clears used buffor
+
+        unsigned int canId = CAN.getCanId();  //gets the ID of the sending node
+        
+        Serial.print("ID");
+        Serial.print(canId);
+        Serial.print(":");
+        for(int i = 0; i<len; i++)    
+        {
+          Serial.print(buf[i], HEX);
+        }
+     }
+   ```
+   W programie ponadto występuje algorytm, pozwalający w prosty sposób dodawać kolejne filtry, umożliwiając odbieranie danych od niezdefiniowanych domyślnie ID. Służy do tego funkcja "Try_add_device()".
+   W celu przyszłego usprawnienia aplikacji, oraz informowania użytkownika o stanie systemu, wprowadzony został prymitywny "software watchdog". Działa on w pętli głównej programu, wykorzystuje on systemowy UpCounter, który resetuje się po otrzymaniu wiadomości. W przypadku nie otrzymania wiadomości przez "TIMEOUT_INTERVAL" sekund, użytkownik informowany jest o stanie modułu, oraz otrzymuje podpowiedzi od systemu.
+   
+   
+
+### 2. PC
+
+## Sposób uruchomienia
+W celu kompilacji programów na platformy Arduino, wymagane jest pobranie i dołączenie biblioteki CAN_BUS_SHIELD od Seeed-Studio. Wszystkie pozostałe pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
+1. Wgrać odpowiedni program (sender/sender.ino lub receiver/receiver.ino) na płytki Arduino za pomocą programu Arduino IDE
+- wybrać odpowiedni typ płytki
+- wybrać odpowiedni port COM
+- otworzyć plik źródłowy
+- skompilować kod
+- załadować skompilowany program do pamięci płytki
+2. Podłączyć przewody komunikacyjne
+- połączyć przewodem DB9-DB9 gniazda na obu shieldach
+3. Zapewnić łączność komputera PC ze stroną internetową systemu smart-storm
+4. Podłączyć przewody zasilające płytki Arduino
+- obie płytki zasilane są przewodami USB, przy czym ważne jest, żeby najpierw uruchomić płytkę z programem receiver.ino
+W tym momencie dane w odbiorniku są wystawiane na interfejs szeregowy USB, skąd mogą zostać pobrane przez skrypt napisany w języku Python.
+5. Uruchomić program send.py
+
+## Źródła
+- https://smartrobots.pl/arduino-CAN-bus-shield
+- https://elty.pl/pl/p/CAN-BUS-Shield-dla-Arduino/1094
+- http://mikrokontroler.pl/2013/06/10/interfejs-komunikacyjny-can-podstawy/
