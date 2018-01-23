@@ -5,6 +5,7 @@
 #include <mcp_can.h>
 #include <SPI.h>
 
+#define Send_interval 10000
 // the cs pin of the version after v1.1 is default to D9
 // v0.9b and v1.0 is default D10
 const int SPI_CS_PIN = 10;
@@ -82,6 +83,7 @@ void loop()
     delay(100); 
     CAN.sendMsgBuf(0x05, 0, 8, (unsigned char *)data);
     delay(100); 
+    delay(Send_interval);
 
 }
 
