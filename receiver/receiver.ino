@@ -125,7 +125,7 @@ void Try_add_device(void){
               Serial.print("Dodano nowe urzadzenie o numerze ");
               Serial.print(new_number.toInt());
               Serial.print(" . Mozna dodac jeszcze ");
-              Serial.print(MAX_FILTER_INDEX-filter_index);
+              Serial.print(MAX_FILTER_INDEX-filter_index-1);
               Serial.println(" ID urzadzen.");
               filter_IDs[filter_index] = new_number.toInt();
               filter_index++;
@@ -141,7 +141,7 @@ void Try_add_device(void){
               Serial.print("Dodano nowe urzadzenie o numerze ");
               Serial.print(new_number.toInt());
               Serial.print(" . Mozna dodac jeszcze ");
-              Serial.print(MAX_FILTER_INDEX-filter_index);
+              Serial.print(MAX_FILTER_INDEX-filter_index-1);
               Serial.println(" ID urzadzen.");
               filter_IDs[filter_index] = new_number.toInt();
               filter_index++;
