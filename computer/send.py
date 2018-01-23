@@ -1,6 +1,8 @@
 import requests
 import serial
 import datetime
+import sys
+import select
 
 
 def interpret_data(string):
@@ -37,19 +39,29 @@ def send_data(sensor_id, value):
 
 
 if __name__ == '__main__':
-    # ser = serial.Serial(
-    #     port='/dev/ttyUSB0',
-    #     baudrate=115200,
-    #     parity=serial.PARITY_NONE,
-    #     stopbits=serial.STOPBITS_ONE,
-    #     bytesize=serial.EIGHTBITS,
-    #     timeout=0)
-    # print("connected to: " + ser.portstr)
-    # while True:
-    #     line = ser.readline()
-    #     if line:
-    #         print(line)
-    sensor_id, value = interpret_data('ID4:00200302\r\n')
-    print(sensor_id, value)
-    send_data(sensor_id, value)
+    ser = serial.Serial(
+        port='/dev/ttyUSB0',
+        baudrate=115200,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=0)
+    print("connected to: " + ser.portstr)
+
+    while True:
+        while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+            line = sys.stdin.readline()
+            if line:
+                ser.write(str.encode(line[:-1]))
+
+        line = ser.readline()
+        if line:
+            string = line.decode()
+            sensor_id, value = interpret_data(string)
+            if sensor_id[0:2] == "ID" and sensor_id[2] != ' ':
+                print(sensor_id, value)
+                send_data(sensor_id, value)
+            else:
+                print(string)
+
 
