@@ -144,9 +144,24 @@ W ramach projektu zostały stworzone dwa programy realizujące komunikację CAN 
    W programie ponadto występuje algorytm, pozwalający w prosty sposób dodawać kolejne filtry, umożliwiając odbieranie danych od niezdefiniowanych domyślnie ID. Służy do tego funkcja "Try_add_device()".
    W celu przyszłego usprawnienia aplikacji, oraz informowania użytkownika o stanie systemu, wprowadzony został prymitywny "software watchdog". Działa on w pętli głównej programu, wykorzystuje on systemowy UpCounter, który resetuje się po otrzymaniu wiadomości. W przypadku nie otrzymania wiadomości przez "TIMEOUT_INTERVAL" sekund, użytkownik informowany jest o stanie modułu oraz otrzymuje podpowiedzi od systemu.
    
-   
-
 ### 2. PC
+Napisany został skrypt w języku Python3.6, który znajduje się w folderze computer. Skrypt zczytuje dane z portu USB dzięki bibliotece serial, następnie odczytane dane zostają zweryfikowane czy są pomiarami czy komunikatem. Pomiary mają specyficzny format, który zaczyna się od liter "ID" następnie występuje numer chujnika, dwukropek, oraz 8 cyfr pomiaru w formacie dziesiętnym. Odebrane komunikaty zostają wyświetlane na standardowym wyjściu programu, a odebrane pomiary zostają przetworzone, wypisane na standardowym wyjściu oraz przesłane na serwer SmartStorm. Jeżeli wysyłanie danych się nie powiedzie z dowolnego powodu zostaje wyświetlony komunikat o niepowodzeniu a pomiar zostaje zapisany do pliku tekstowego failed_data. Poniżej zamieszczam kod wysyłania danych na serwer.
+```
+def send_data(sensor_id, value):
+    dt = datetime.datetime.now()
+    url = "http://alfa.smartstorm.io/api/v1/measure"
+    request_data = {"user_id": "126127@interia.pl",
+                    "sensor_id": sensor_id,         # "5a637497bdb00155a3540295",
+                    "desc": str(dt),
+                    "measure_value": str(value)}
+    try:
+        requests.post(url, request_data, timeout=1)
+    except requests.exceptions.RequestException:
+        print("Could not send data to Smart Storm")
+        with open('failed_data', 'a') as f:
+            f.write(str(dt) + ',' + sensor_id + ',' + str(value) + '\n')
+```
+Użytkownik ma dodatkowo możliwość przesyłania danych poprzez port USB. Wpisanie ciągu znaków do standardowego wejścia i zatwierdzenie klawiszem Enter powoduje wysłanie wpisanego ciągu przez port USB. Program wgrany na Arduino odbiera dane, lecz odrzuca dane różne od liczb z przedziału 0-99. Podanie liczby z tego przedziału powoduje dodanie miernika o id równym tej liczbie, o ile nie osignęliśmy maksymalnej liczby urządzeń lub dany miernik jest już dodany.
 
 ## Sposób uruchomienia
 W celu kompilacji programów na platformy Arduino, wymagane jest pobranie i dołączenie biblioteki CAN_BUS_SHIELD od Seeed-Studio. Wszystkie pozostałe pliki potrzebne do prawidłowego działania systemu znajdują się w tym repozytorium.
