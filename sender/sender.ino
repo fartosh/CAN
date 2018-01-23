@@ -71,14 +71,14 @@ void loop()
     // get data from sensors
     prepare_data();
   
-    //We can either send a messange through a specified buffer or through a first free buffer found.
+    //We can either send a message through a specified buffer or through a first free buffer found.
     //It may be neccessary to use specific buffer when there are different prorities to the informations of if we need to store old informations.
     //In this assignment there is no need to buffor data, as we do not need old data at any time.
     //Its better to look for the first free buffor and just go for it.
     
     // send data:  id = 0xXX, frame type (0 - standard frame), data len , data buf
     CAN.sendMsgBuf(0x02, 0, 8, (unsigned char *)temperature);
-    delay(100);  //messanges shouldn't be sent faster than 1/20ms because of using interrupt driven receiving                      
+    delay(100);  //messages shouldn't be sent faster than 1/20ms because of using interrupt driven receiving                      
     CAN.sendMsgBuf(0x01, 0, 8, (unsigned char *)humidity);
     delay(100); 
     CAN.sendMsgBuf(0x05, 0, 8, (unsigned char *)data);
