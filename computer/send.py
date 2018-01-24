@@ -5,7 +5,7 @@ import sys
 import select
 
 
-# Funkcja interpretująca dane otrzymane z portu USB, zwraca id sensora oraz pomierzoną przez niego wartość
+# Function that interprets data from USB port
 def interpret_data(string):
     sensor = ''
     value = 0
@@ -24,13 +24,13 @@ def interpret_data(string):
     return sensor, value
 
 
-# Funkcja wysyłająca dane na SmartStorm, przyjmuje id sensora oraz wartości przez niego pomierzone
-# W razie niepowodzenia dane zostają zapisane do pliku wraz z datą i godziną
+# Function that sends data to SmartStorm
+# In case of failure, data is written to file
 def send_data(sensor_id, value):
     dt = datetime.datetime.now()
     url = "http://alfa.smartstorm.io/api/v1/measure"
     request_data = {"user_id": "126127@interia.pl",
-                    "sensor_id": sensor_id,         # "5a637497bdb00155a3540295",
+                    "sensor_id": sensor_id,
                     "desc": str(dt),
                     "measure_value": str(value)}
     try:
@@ -42,7 +42,7 @@ def send_data(sensor_id, value):
 
 
 if __name__ == '__main__':
-    # Zestawienie połączenia USB
+    # Initialization of USB connection
     ser = serial.Serial(
         port='/dev/ttyUSB0',
         baudrate=115200,
@@ -52,24 +52,35 @@ if __name__ == '__main__':
         timeout=0)
     print("connected to: " + ser.portstr)
 
-    # Pętla główna skryptu
+    # Main loop
     while True:
-        # Zczytywanie nieblokujące ze standardowego wejścia
-        # Po wciśnięciu klawisza Enter następuje wysłanie ciągu znaków do urządzenia podłączonego przez USB
+        # Non-blocking reading from standard input
+        # Written input is sent to microcontroller after pressing Enter
         while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
             line = sys.stdin.readline()
             if line:
                 ser.write(str.encode(line[:-1]))
 
-        # Zczytywanie nieblokujące z portu USB
-        # Otrzymane dane są weryfikowane oraz wysyłane do SmartStorm jeżeli są pomiarami
+        # Non-blocking reading from USB port
+        # Read data is verified and sent to SmartStorm if it is measurement
         line = ser.readline()
         if line:
             string = line.decode()
-            if sensor_id[0:2] == "ID" and sensor_id[2] != ' ':
+            if string[0:2] == "ID" and string[2] != ' ':
                 sensor_id, value = interpret_data(string)
+                sersor_valid = False
+                if string[2] == '1':
+                    sensor_id = "5a68bf39846646151caf16ba"
+                    sersor_valid = True
+                elif string[2] == '2':
+                    sensor_id = "5a68bf28846646151caf16b9"
+                    sersor_valid = True
+                elif string[2] == '5':
+                    sensor_id = "5a68bf39846646151caf16bb"
+                    sersor_valid = True
                 print(sensor_id, value)
-                send_data(sensor_id, value)
+                if sersor_valid:
+                    send_data(sensor_id, value)
             else:
                 print(string)
 
